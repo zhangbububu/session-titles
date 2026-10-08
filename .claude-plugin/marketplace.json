@@ -1,0 +1,16 @@
+{
+  "name": "session-titles",
+  "description": "Claude Code mods that keep session titles meaningful.",
+  "owner": {
+    "name": "zhangbubu",
+    "url": "https://github.com/zhangbububu"
+  },
+  "plugins": [
+    {
+      "name": "last-prompt-title",
+      "description": "Titles each session from the latest user prompt: cut for the CLI, model-written for the sidebar.",
+      "version": "0.3.0",
+      "source": "./plugins/last-prompt-title"
+    }
+  ]
+}

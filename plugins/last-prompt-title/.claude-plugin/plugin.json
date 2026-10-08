@@ -1,0 +1,13 @@
+{
+  "name": "last-prompt-title",
+  "version": "0.3.0",
+  "description": "Titles each session from the latest user prompt: cut for the CLI, model-written for the sidebar.",
+  "author": {
+    "name": "zhangbubu",
+    "url": "https://github.com/zhangbububu"
+  },
+  "homepage": "https://github.com/zhangbububu/session-titles",
+  "repository": "https://github.com/zhangbububu/session-titles",
+  "license": "MIT",
+  "keywords": ["session", "title", "sidebar", "haiku"]
+}
