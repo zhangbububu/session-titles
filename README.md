@@ -2,6 +2,10 @@
 
 A [Claude Code](https://claude.com/claude-code) plugin marketplace for mods that keep session titles meaningful.
 
+<p align="center">
+  <img src="images/demo.svg" width="760" alt="Each prompt first becomes the session title cut to 60 characters, then Haiku rewrites it as a short title that follows the latest prompt">
+</p>
+
 ## last-prompt-title
 
 Retitles the session every time you send a prompt, so the sidebar tells you what each session is about right now, not what it was about when it started.
