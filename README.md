@@ -35,10 +35,6 @@ claude plugin validate plugins/last-prompt-title
 claude plugin test plugins/last-prompt-title
 ```
 
-## 中文说明
-
-每发一条消息就重命名会话：CLI 标题用截断后的原文；桌面端侧边栏标题由 Haiku 根据你最新的一条消息概括生成，异步更新、不拖慢提交。只在桌面端改侧边栏；每条消息多一次 Haiku 调用，计入你自己的账号；只把最新消息的前 1000 个字符发给模型。
-
 ## License
 
 [MIT](./LICENSE)
