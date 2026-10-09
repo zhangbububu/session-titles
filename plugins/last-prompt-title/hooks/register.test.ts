@@ -24,6 +24,19 @@ describe('titleRequest / titleFromReply', () => {
     expect(titleRequest('a'.repeat(2000)).prompt.length).toBe('<message>\n\n</message>'.length + 1000)
   })
 
+  test('puts up to three earlier prompts, one line each, ahead of the latest', () => {
+    const { prompt } = titleRequest('解释', ['zero', 'one\n  two', 'three', 'four'])
+    expect(prompt).toBe(
+      '<earlier>\none two\n</earlier>\n<earlier>\nthree\n</earlier>\n<earlier>\nfour\n</earlier>\n<message>\n解释\n</message>',
+    )
+  })
+
+  test('asks for a concrete subject, not a generic label', () => {
+    const { system } = titleRequest('fix it')
+    expect(system).toContain('concrete subject')
+    expect(system).toContain('代码解释')
+  })
+
   test('cleans quotes, punctuation and extra lines off a reply', () => {
     expect(titleFromReply('「修复登录 bug」。\nextra')).toBe('修复登录 bug')
     expect(titleFromReply('"Add dark mode."')).toBe('Add dark mode')
@@ -55,12 +68,31 @@ describe('classic.UserPromptSubmit', () => {
     await clock.settle()
 
     expect(result.sessionTitle).toBe('four')
-    expect(asked.at(-1)).toBe(titleRequest('four').prompt)
+    expect(asked.at(-1)).toBe(titleRequest('four', ['add a  dark mode\ntoggle', 'two', 'three']).prompt)
     expect(renames.at(-1)).toEqual({
       server: 'ccd_session_mgmt',
       tool: 'set_session_title',
       args: { session_id: 'self', title: 'Title 4' },
     })
+  })
+
+  test('gives a short follow-up the earlier prompts as context', async ($, on) => {
+    const clock = mock.clock(on)
+    const asked: string[] = []
+    on('classic.UserPromptSubmit', () => ({}))
+    on('model.complete', async (_$, e) => {
+      asked.push(e.prompt)
+      return { value: { isAnswered: true, text: 'AgentManager.start 去重逻辑', usage: { input_tokens: 1, output_tokens: 1, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 } } }
+    })
+    on('mcp.call', async () => ({ value: { content: [], isError: false } }))
+
+    await $.classic.UserPromptSubmit({ prompt: 'mgr.start 里的 starting / agents / startQueue 是什么', source: 'user' })
+    await $.classic.UserPromptSubmit({ prompt: '/reload-plugins', source: 'user' })
+    await $.classic.UserPromptSubmit({ prompt: 'task finished', source: 'system' })
+    await $.classic.UserPromptSubmit({ prompt: '解释', source: 'user' })
+    await clock.settle()
+
+    expect(asked.at(-1)).toBe(titleRequest('解释', ['mgr.start 里的 starting / agents / startQueue 是什么']).prompt)
   })
 
   test('falls back to the cut title when the model does not answer', async ($, on) => {

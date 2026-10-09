@@ -11,7 +11,7 @@ A [Claude Code](https://claude.com/claude-code) plugin marketplace for mods that
 Retitles the session every time you send a prompt, so the sidebar tells you what each session is about right now, not what it was about when it started.
 
 - **CLI title**: your prompt collapsed to one line and cut to 60 characters, set at once.
-- **Desktop sidebar title**: a short title Haiku writes from your latest prompt, set a few seconds later without holding up the turn. If the model gives no answer within 15 seconds, the sidebar gets the cut prompt instead.
+- **Desktop sidebar title**: a short title Haiku writes from your latest prompt, with your previous three prompts as context so a bare follow-up like "explain" still gets a title naming the code or task it is about, set a few seconds later without holding up the turn. If the model gives no answer within 15 seconds, the sidebar gets the cut prompt instead.
 
 Only prompts you type count. Slash commands, empty prompts and machine-injected turns (task notifications, loop wakeups, SDK calls) leave the title alone.
 
